@@ -9,6 +9,6 @@ library(ratdat)
 ```{r}
 #graphique
 ggplot(data=complete_old, aes(x=weight, y= hindfoot_length))+
-  geom_point(color = "blue")
+  geom_point(color = "blue", alpha = 0.1)
 ```
 
