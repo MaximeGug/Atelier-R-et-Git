@@ -1,0 +1,283 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(ratdat)
+library(ggplot2)
+```
+
+```{r}
+#exploration de données 
+?complete_old
+summary(complete_old)
+```
+
+```{r}
+head(complete_old)
+```
+
+```{r}
+str(complete_old)
+```
+
+#ggplot
+
+```{r}
+ggplot(data=complete_old, mapping=aes(x = weight, y= hindfoot_length, color=plot_type))+
+  geom_point(alpha=0.2)
+```
+
+```{r}
+#enlever valeurs manquantes
+complete_old <- filter(complete_old, !is.na(weight))
+complete_old <- filter(complete_old, !is.na(hindfoot_length))
+```
+
+```{r}
+#library(ggplot2)
+ggplot(data=complete_old, mapping=aes(x = weight, y= hindfoot_length, color=plot_type, shape=sex))+
+  geom_point(alpha=0.2) +
+  scale_color_viridis_d() +
+  scale_x_log10()
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_boxplot() +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_boxplot() +
+  geom_jitter(alpha = 0.1) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length, color=plot_type ))+
+  geom_boxplot() +
+  geom_jitter(alpha = 0.1) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_boxplot() +
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+
+
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA, fill=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length, fill=plot_type ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_violin() +
+  scale_x_discrete(labels = label_wrap_gen(width=10))
+
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA, fill=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))+
+  theme_bw()
+```
+
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA, fill=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))+
+  theme_bw()+
+  theme(legend.position = "none") +
+  labs(x="Plot type", y = "Hindfoot length (mm)")
+```
+
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA, fill=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))+
+  theme_bw()+
+  theme(legend.position = "none") +
+  labs(x="Plot type", y = "Hindfoot length (mm)")+
+  facet_wrap(vars(sex), nrow = 1)
+```
+```{r}
+ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA, fill=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))+
+  theme_bw()+
+  theme(legend.position = "none") +
+  labs(x="Plot type", y = "Hindfoot length (mm)")+
+  facet_wrap(vars(sex), ncol = 1)
+```
+```{r}
+plot_final <- ggplot(data=complete_old, mapping=aes(x = plot_type, y= hindfoot_length ))+
+  geom_jitter(alpha = 0.1, aes(color=plot_type)) +
+  geom_boxplot(outlier.shape=NA, fill=NA) +
+  scale_x_discrete(labels = label_wrap_gen(width=10))+
+  theme_bw()+
+  theme(legend.position = "none") +
+  labs(x="Plot type", y = "Hindfoot length (mm)")+
+  facet_wrap(vars(sex), ncol = 1)
+ggsave(filename = "../Figures/plot_final.png", plot = plot_final, height = 6, width = 8)
+```
+
+#tidyverse
+```{r}
+surveys <- read_csv("../Data/raw/surveys_complete_77_89.csv")
+```
+```{r}
+#select()
+#filter()
+#mutate()
+#group_by()
+#summarize() 
+```
+
+##select
+```{r}
+select(surveys, plot_id, species_id)
+```
+
+```{r}
+select(surveys, c(3,4))
+```
+
+```{r}
+select(surveys, -plot_id)
+```
+
+```{r}
+select(surveys, where(is.numeric))
+```
+
+```{r}
+select(surveys, where(anyNA))
+```
+
+##filter
+
+```{r}
+filter(surveys, year == 1988)
+```
+
+
+```{r}
+filter(surveys, species_id %in% c("RM","DO"))
+```
+
+```{r}
+filter(surveys, year == 1988 & species_id %in% c("RM","DO"))
+```
+
+```{r}
+#chalenge
+# 1er facon
+surveys_80_85 <- filter(surveys, year >= 1980 & year <=1985)
+surveys_80_85 <- select(surveys_80_85, year, month, plot_id, species_id)
+surveys_80_85
+```
+
+
+```{r}
+# 2eme facon
+select(filter(surveys, year >= 1980 & year <=1985), year, month, plot_id, species_id )
+```
+##pipelines %>%
+```{r}
+#3eme facon
+# %>% remplace l<argument au debut de chaque fonction
+surveys %>% filter(year==1980:1985) %>% select(year, month, plot_id, species_id)
+```
+
+```{r}
+#chalenge 2 
+surveys %>% filter(year==1988) %>% select(record_id, month, species_id)
+```
+
+##mutate
+```{r}
+surveys %>% mutate(weight_kg = weight / 100) %>% relocate(weight_kg, .after = record_id)
+```
+
+```{r}
+surveys %>% mutate(weight_kg = weight / 100, weight_lbs = weight_kg*2.2) %>% relocate(weight_lbs, .after = record_id)
+```
+
+```{r}
+surveys %>% mutate(weight_kg = weight / 100, weight_lbs = weight_kg*2.2) %>% relocate(weight_lbs, .after = record_id) %>% relocate(weight_kg, .after = record_id)
+```
+
+```{r}
+surveys %>% mutate(weight_kg = weight / 100, weight_lbs = weight_kg*2.2) %>% relocate(weight_lbs, .after = record_id) %>% relocate(weight_kg, .after = record_id) filter(!is.na(weight)) %>% mutate(weight_kg = weight / 100, weight_lbs = weight_kg*2.2) %>% relocate(weight_lbs, .after = record_id) %>% relocate(weight_kg, .after = record_id)
+```
+
+```{r}
+surveys %>% mutate(date = paste(year, month, day, sep = "-")) %>% relocate(date, .after = year)
+```
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+surveys %>% mutate(date = ymd(paste(year, month, day, sep = "-"))) %>% relocate(date, .after = year)
+```
+
+##group_by & summarize
+```{r}
+surveys %>% group_by(sex) %>% summarize(mean.weight = mean(weight))
+```
+
+```{r}
+surveys %>% group_by(sex) %>% summarize(mean.weight = mean(weight, na.rm = T), count = n())
+```
+
+
+```{r}
+#chalenge 3 
+surveys %>% mutate(date = ymd(paste(year, month, day, sep = "-"))) %>% 
+  filter(!is.na(sex)) %>%
+  group_by(sex,date) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x=date, y= count, color=sex)) +
+  geom_line() +
+  theme_bw()
+  
+
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
